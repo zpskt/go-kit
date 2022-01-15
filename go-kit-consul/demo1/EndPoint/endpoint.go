@@ -3,11 +3,11 @@ package EndPoint
 
 import (
 	"context"
-	"go-kit-consul/Server"
-
+	"demo1/Server"
 	"github.com/go-kit/kit/endpoint"
 )
 
+//定义Request、Response格式，并可以使用装饰器(闭包)包装函数,以此来实现各个中间件嵌套
 // endpoint.go 定义 Request、Response 格式, 并且可以使用闭包来实现各种中间件的嵌套
 // 这里了解 protobuf 的比较好理解点
 // 就是声明 接收数据和响应数据的结构体 并通过构造函数创建 在创建的过程当然可以使用闭包来进行一些你想要的操作啦

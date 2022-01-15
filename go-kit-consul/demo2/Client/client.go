@@ -4,10 +4,9 @@ package Client
 import (
 	"context"
 	"fmt"
+	"github.com/go-kit/kit/transport/http"
 	"net/url"
 	"strings"
-
-	"github.com/go-kit/kit/transport/http"
 )
 
 // Direct: 直接调用服务端

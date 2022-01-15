@@ -30,3 +30,9 @@ src：存放源码文件
 
         go get -u github.com/gorilla/mux
         go get -u github.com/go-kit/kit/transport/http
+## 使用
+在根目录下
+        go run main.go  
+之后访问浏览器可以看到我们的demo了  
+http://127.0.0.1:8000/?name=zp
+http://127.0.0.1:8001/?name=zp

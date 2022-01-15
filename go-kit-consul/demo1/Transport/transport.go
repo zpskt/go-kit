@@ -3,9 +3,9 @@ package Transport
 
 import (
 	"context"
+	"demo1/EndPoint"
 	"encoding/json"
 	"errors"
-	"go-kit-consul/EndPoint"
 	"net/http"
 )
 

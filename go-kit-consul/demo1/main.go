@@ -2,13 +2,11 @@
 package main
 
 import (
-	EndPoint1 "go-kit-consul/EndPoint"
-	"go-kit-consul/Server"
-	"go-kit-consul/Transport"
-	"net/http"
-
+	EndPoint1 "demo1/EndPoint"
+	"demo1/Server"
+	"demo1/Transport"
 	httpTransport "github.com/go-kit/kit/transport/http"
-	"github.com/gorilla/mux"
+	"net/http"
 )
 
 // 服务发布
@@ -27,16 +25,9 @@ func main() {
 	helloServer := httpTransport.NewServer(hello, Transport.HelloDecodeRequest, Transport.HelloEncodeResponse)
 	sayServer := httpTransport.NewServer(Bye, Transport.ByeDecodeRequest, Transport.ByeEncodeResponse)
 
-	//// 使用http包启动服务
-	//go http.ListenAndServe("0.0.0.0:8000", helloServer)
-	//
-	//go http.ListenAndServe("0.0.0.0:8001", sayServer)
-	//select {}
+	// 使用http包启动服务
+	go http.ListenAndServe("0.0.0.0:8000", helloServer)
 
-	// https://github.com/gorilla/mux
-	r := mux.NewRouter()
-	// 注册路由
-	r.Handle("/hello", helloServer)
-	r.Handle("/bye", sayServer)
-	_ = http.ListenAndServe("0.0.0.0:8000", r)
+	go http.ListenAndServe("0.0.0.0:8001", sayServer)
+	select {}
 }

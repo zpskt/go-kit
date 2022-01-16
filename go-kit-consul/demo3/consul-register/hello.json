@@ -1,0 +1,13 @@
+{
+  "ID":"zp0896",
+  "Name":"zpconsul",
+  "Tags":[
+    "primary"
+  ],
+  "Address": "127.0.0.1",
+  "Port": 8080,
+  "Check":{
+    "HTTP":"127.0.0.1:8000/health",
+    "interval":"5s"
+  }
+}

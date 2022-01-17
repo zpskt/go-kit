@@ -10,3 +10,6 @@ localhost:8500/v1/agent/service/register
 curl \
 --request PUT \
 localhost:8500/v1/agent/service/deregister/注册时候的ID
+
+下载consul相关api 
+        go getgithub.com/hashicorp/consul

@@ -19,7 +19,13 @@ func init() {
 		log.Fatal(err)
 	}
 	ConsulClient = client
-	ServiceID = "userservice" + uuid.New().String() //因为最终这段代码是在不同的机器上跑的，是分布式的，有好几台机器提供相同的server，所以这里存到consul中的id必须是唯一的，否则只有一台服务器可以注册进去，这里使用uuid保证唯一性
+	//因为最终这段代码是在不同的机器上跑的，是分布式的，有好几台机器提供相同的server，
+	//所以这里存到consul中的id必须是唯一的，否则只有一台服务器可以注册进去，这里使用uuid保证唯一性。
+	ServiceID = "userservice" + uuid.New().String()
+}
+func SetServiceNameAndPort(name string, port int) {
+	ServiceName = name
+	ServicePort = port
 }
 func RegService() {
 

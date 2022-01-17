@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"gomicro/util"
+	"strconv"
 )
 
 //定义response和request的格式
@@ -24,7 +26,7 @@ func GenUserEnpoint(userService IUserService) endpoint.Endpoint {
 		r := request.(UserRequest) //获取到了r，就可以用我们的服务了
 		result := "noting"
 		if r.Method == "GET" {
-			result = userService.GetName(r.Uid)
+			result = userService.GetName(r.Uid) + strconv.Itoa(util.ServicePort)
 		} else if r.Method == "DELETE" { //如果是删除
 			err := userService.DelUser(r.Uid)
 			if err != nil { //代表有错，无法删除

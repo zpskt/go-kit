@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	consulapi "github.com/hashicorp/consul/api"
 	"log"
@@ -38,9 +39,9 @@ func RegService() {
 	reg.Tags = []string{"primary"}
 
 	//健康检查，心跳
-	check := consulapi.AgentServiceCheck{}        //创建consul的检查器
-	check.Interval = "5s"                         //设置consul心跳检查时间间隔
-	check.HTTP = "http://192.168.1.5:8080/health" //设置检查使用的url
+	check := consulapi.AgentServiceCheck{}                                    //创建consul的检查器
+	check.Interval = "5s"                                                     //设置consul心跳检查时间间隔
+	check.HTTP = fmt.Sprintf("http://%s:%d/health", reg.Address, ServicePort) //设置检查心跳API
 
 	reg.Check = &check //传入我们写的check，地址传递
 	//完成基本数据

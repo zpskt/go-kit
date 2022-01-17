@@ -14,6 +14,7 @@ import (
 	"io"
 	"net/url"
 	"os"
+	"time"
 )
 
 func main() {
@@ -46,14 +47,16 @@ func main() {
 				endpoints, _ := endpointer.Endpoints()
 				fmt.Println("服务有", len(endpoints), "条")
 
-				//负载均衡
-				mylb := lb.NewRoundRobin(endpointer) //使用go-kit自带的轮询
+				//负载均衡使用go-kit自带的包
+				//mylb := lb.NewRoundRobin(endpointer) //轮询
+				mylb := lb.NewRandom(endpointer, time.Now().UnixNano()) //随即查询
+
 				for {
-					getUserInfo, _ := mylb.Endpoint()
-					ctx := context.Background() //第三步：创建一个context上下文对象
+					getUserInfo, err := mylb.Endpoint() //写死获取第一个
+					ctx := context.Background()         //第三步：创建一个context上下文对象
 
 					//第四步：执行
-					res, err := getUserInfo(ctx, Services.UserRequest{Uid: 102})
+					res, err := getUserInfo(ctx, Services.UserRequest{Uid: 101})
 					if err != nil {
 						fmt.Println(err)
 						os.Exit(1)
@@ -61,6 +64,7 @@ func main() {
 					//第五步：断言，得到响应值
 					userinfo := res.(Services.UserResponse)
 					fmt.Println(userinfo.Result)
+					time.Sleep(time.Second * 3) //每隔3s查看一次一次
 				}
 
 			}

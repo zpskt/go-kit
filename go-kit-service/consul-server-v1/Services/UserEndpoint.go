@@ -2,8 +2,10 @@ package Services
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"golang.org/x/time/rate"
 	"gomicro/util"
 	"strconv"
 )
@@ -16,6 +18,18 @@ type UserRequest struct {
 }
 type UserResponse struct {
 	Result string `json:"result"`
+}
+
+//endpoint中间件，增加限流功能
+func RateLimit(limit *rate.Limiter) endpoint.Middleware {
+	return func(next endpoint.Endpoint) endpoint.Endpoint {
+		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+			if !limit.Allow() {
+				return nil, errors.New("too many request")
+			}
+			return next(ctx, request)
+		}
+	}
 }
 
 //endpoint其实就是个func

@@ -5,7 +5,8 @@ import (
 	"fmt"
 	httptransport "github.com/go-kit/kit/transport/http"
 	mymux "github.com/gorilla/mux" //第三方路由
-	. "gomicro/Services"
+	"golang.org/x/time/rate"
+	"gomicro/Services"
 	"gomicro/util"
 	"log"
 	"net/http"
@@ -30,11 +31,15 @@ func main() {
 
 	fmt.Println(*name)
 	//1.第一层service
-	user := UserService{}
-	//通过GenUserEnpoint调用服务
-	endp := GenUserEnpoint(user)
+	user := Services.UserService{}
+	limit := rate.NewLimiter(1, 5)
 
-	serverHanlder := httptransport.NewServer(endp, DecodeUserRequest, EncodeUserResponse)
+	//通过GenUserEnpoint调用服务
+	//endp := Services.GenUserEnpoint(user)
+	//?调用中间件可以直接在后面传参么
+	endp := Services.RateLimit(limit)(Services.GenUserEnpoint(user)) //调用限流代码生成的中间件
+
+	serverHanlder := httptransport.NewServer(endp, Services.DecodeUserRequest, Services.EncodeUserResponse)
 
 	//路由模块
 	r := mymux.NewRouter()

@@ -24,3 +24,6 @@ API限流
 熔断
 go get github.com/afex/hystrix-go
 >场景：假设
+>
+熔断补救：服务降级
+异步执行，和服务降级

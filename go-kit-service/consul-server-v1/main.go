@@ -39,13 +39,19 @@ func main() {
 	//?调用中间件可以直接在后面传参么
 	endp := Services.RateLimit(limit)(Services.GenUserEnpoint(user)) //调用限流代码生成的中间件
 
-	serverHanlder := httptransport.NewServer(endp, Services.DecodeUserRequest, Services.EncodeUserResponse)
+	options := []httptransport.ServerOption{ //生成ServerOtion切片，传入我们自定义的错误处理函数
+		httptransport.ServerErrorEncoder(util.MyErrorEncoder),
+		//ServerErrorEncoder支持ErrorEncoder类型的参数,
+		//我们自定义的MyErrorEncoder只要符合ErrorEncoder类型就可以传入
+	}
+	//使用go kit创建server传入我们之前定义的两个解析函数
+	serverHandler := httptransport.NewServer(endp, Services.DecodeUserRequest, Services.EncodeUserResponse, options...)
 
 	//路由模块
 	r := mymux.NewRouter()
 	//r.Handle(`/user/{uid:\d+}`, serverHanlder)
 	{
-		r.Methods("GET", "DELETE").Path(`/user/{uid:\d+}`).Handler(serverHanlder)
+		r.Methods("GET", "DELETE").Path(`/user/{uid:\d+}`).Handler(serverHandler)
 		//手动写一个health路由，写死
 		r.Methods("GET").Path(`/health`).HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			//设置json格式

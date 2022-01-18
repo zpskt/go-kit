@@ -36,7 +36,7 @@ func RateLimit(limit *rate.Limiter) endpoint.Middleware {
 func GenUserEnpoint(userService IUserService) endpoint.Endpoint {
 	//这个func是endpoint规定的返回格式
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
-
+		//通过类型断言获取请求结构体
 		r := request.(UserRequest) //获取到了r，就可以用我们的服务了
 		result := "noting"
 		if r.Method == "GET" {

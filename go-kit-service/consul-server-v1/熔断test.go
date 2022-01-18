@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/afex/hystrix-go/hystrix"
 	"math/rand"
 	"time"
 )
@@ -28,9 +29,19 @@ func getProduct() (Product, error) {
 func main() {
 	//设置随机因子
 	rand.Seed(time.Now().UnixNano())
+	configA := hystrix.CommandConfig{ //hystrix.CommandConfig 修改配置文件
+		Timeout: 4000, //设置延时参数
+	}
+	hystrix.ConfigureCommand("get_prod", configA) //设置name是get_prod的配置参数为configA
 	for {
-		p, _ := getProduct()
-		fmt.Println(p)
-		time.Sleep(time.Second)
+		err := hystrix.Do("get_prod", func() error {
+			p, _ := getProduct()
+			fmt.Println(p)
+			return nil
+		}, nil)
+		if err != nil {
+			fmt.Println(err)
+		}
+
 	}
 }

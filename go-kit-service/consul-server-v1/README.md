@@ -17,3 +17,10 @@ localhost:8500/v1/agent/service/deregister/注册时候的ID
 
     go run main.go --name userservice -p 8081
     go run main.go --name userservice -p 8080
+
+API限流
+自定义错误体
+
+熔断
+go get github.com/afex/hystrix-go
+>场景：假设

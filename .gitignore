@@ -21,3 +21,4 @@ bin-release/
 # information for Eclipse / Flash Builder.
 /go-kit-service/consul-client-v1/.idea/
 /go-kit-service/consul-server-v1/.idea/
+/go-kit-service/consul-client-v1/.idea/

@@ -2,7 +2,6 @@ package Services
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
 	"golang.org/x/time/rate"
@@ -25,7 +24,7 @@ func RateLimit(limit *rate.Limiter) endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 			if !limit.Allow() {
-				return nil, errors.New("too many request")
+				return nil, util.NewMyError(429, "toot many request") //使用我们自定的错误结构体
 			}
 			return next(ctx, request)
 		}

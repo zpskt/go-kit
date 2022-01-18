@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
 	"math/rand"
@@ -43,18 +42,25 @@ func main() {
 		Timeout: 2000, //设置延时参数
 	}
 	hystrix.ConfigureCommand("get_prod", configA) //设置name是get_prod的配置参数为configA
+	resultChan := make(chan Product, 1)
 	for {
-		// hystrix.Do有三个参数：name名字，func1要调用的服务，func2超时后执行代码
-		err := hystrix.Do("get_prod", func() error {
+		// hystrix.Do同步执行。有三个参数：name名字，func1要调用的服务，func2超时后执行代码
+		//hystrix.Go是异步执行。有三个参数：name名字，func1要调用的服务，func2超时后执行代码
+		errs := hystrix.Go("get_prod", func() error {
 			p, _ := getProduct()
-			fmt.Println(p)
+			resultChan <- p
 			return nil
 		}, func(err error) error {
-			fmt.Println(RecProduct()) //超时后调用回调函数返回推荐商品
-			return errors.New("my timeout")
+			//推荐商品,如果这里的err不是nil,那么就会忘errs中写入这个err，下面的select就可以监控到
+			rcp, err := RecProduct()
+			resultChan <- rcp
+			return err
 		})
-		if err != nil {
-			fmt.Println(err)
+		select {
+		case getProd := <-resultChan:
+			fmt.Println(getProd)
+		case err := <-errs: //使用hystrix.Go时返回值是chan error各个协程的错误都放到errs中
+			fmt.Println(err, 1)
 		}
 
 	}

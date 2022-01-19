@@ -1,6 +1,7 @@
 package main
 
 import (
+	"consul-client-v1/Services"
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
@@ -9,7 +10,6 @@ import (
 	"github.com/go-kit/kit/sd/consul"
 	httptransport "github.com/go-kit/kit/transport/http"
 	consulapi "github.com/hashicorp/consul/api"
-	"gomicro2/Services"
 	"io"
 	"net/url"
 	"os"

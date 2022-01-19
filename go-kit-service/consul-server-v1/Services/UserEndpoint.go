@@ -3,6 +3,7 @@ package Services
 import (
 	"context"
 	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
 	"golang.org/x/time/rate"
@@ -15,9 +16,34 @@ type UserRequest struct {
 	//Uid是你自定义的，想叫什么就叫什么
 	Uid    int `json:"uid"`
 	Method string
+	Token  string
 }
 type UserResponse struct {
 	Result string `json:"result"`
+}
+
+//token验证中间件
+func CheckTokenMiddleware() endpoint.Middleware { //Middleware type Middleware func(Endpoint) Endpoint
+	return func(next endpoint.Endpoint) endpoint.Endpoint { //Endpoint type Endpoint func(ctx context.Context, request interface{}) (response interface{}, err error)
+		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+			r := request.(UserRequest) //通过类型断言获取请求结构体
+			uc := UserClaim{}
+			//下面的r.Token是在代码DecodeUserRequest那里封装进去的
+			getToken, err := jwt.ParseWithClaims(r.Token, &uc, func(token *jwt.Token) (i interface{}, e error) {
+				return []byte(secKey), err
+			})
+			fmt.Println(err, 123)
+			if getToken != nil && getToken.Valid { //验证通过
+				newCtx := context.WithValue(ctx, "LoginUser", getToken.Claims.(*UserClaim).Uname)
+				return next(newCtx, request)
+			} else {
+				return nil, util.NewMyError(403, "error token")
+			}
+
+			//logger.Log("method", r.Method, "event", "get user", "userid", r.Uid)
+
+		}
+	}
 }
 
 //日志中间件，增加限流功能
@@ -52,6 +78,7 @@ func GenUserEnpoint(userService IUserService) endpoint.Endpoint {
 
 		//通过类型断言获取请求结构体
 		r := request.(UserRequest) //获取到了r，就可以用我们的服务了
+		fmt.Println("当前登录用户为", ctx.Value("LoginUser"))
 		result := "noting"
 		if r.Method == "GET" {
 			result = userService.GetName(r.Uid) + strconv.Itoa(util.ServicePort)

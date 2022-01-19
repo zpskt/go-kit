@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/go-kit/kit/log"
 	"golang.org/x/time/rate"
 	"gomicro/util"
 	"strconv"
@@ -17,6 +18,19 @@ type UserRequest struct {
 }
 type UserResponse struct {
 	Result string `json:"result"`
+}
+
+//日志中间件，增加限流功能
+func UserServiceLogMiddleware(logger log.Logger) endpoint.Middleware {
+	return func(next endpoint.Endpoint) endpoint.Endpoint {
+		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+
+			r := request.(UserRequest) //获取到了r，就可以用我们的服务了
+			//要成双成对 k-v
+			logger.Log("method", r.Method, "event", "get user", "userid", r.Uid)
+			return next(ctx, request)
+		}
+	}
 }
 
 //endpoint中间件，增加限流功能
@@ -35,11 +49,13 @@ func RateLimit(limit *rate.Limiter) endpoint.Middleware {
 func GenUserEnpoint(userService IUserService) endpoint.Endpoint {
 	//这个func是endpoint规定的返回格式
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+
 		//通过类型断言获取请求结构体
 		r := request.(UserRequest) //获取到了r，就可以用我们的服务了
 		result := "noting"
 		if r.Method == "GET" {
 			result = userService.GetName(r.Uid) + strconv.Itoa(util.ServicePort)
+
 		} else if r.Method == "DELETE" { //如果是删除
 			err := userService.DelUser(r.Uid)
 			if err != nil { //代表有错，无法删除

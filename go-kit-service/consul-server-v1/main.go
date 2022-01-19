@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	kitlog "github.com/go-kit/kit/log"
 	httptransport "github.com/go-kit/kit/transport/http"
 	mymux "github.com/gorilla/mux" //第三方路由
 	"golang.org/x/time/rate"
@@ -17,7 +18,14 @@ import (
 )
 
 func main() {
+	var logger kitlog.Logger
+	{
+		logger = kitlog.NewLogfmtLogger(os.Stdout)
+		logger = kitlog.WithPrefix(logger, "mykit", "1.0")
+		logger = kitlog.WithPrefix(logger, "time", kitlog.DefaultTimestampUTC) //加上前缀时间
+		logger = kitlog.WithPrefix(logger, "caller", kitlog.DefaultCaller)     //加上前缀，日志输出时的文件和第几行代码
 
+	}
 	name := flag.String("name", "", "服务名")
 	port := flag.Int("p", 0, "服务端口")
 	flag.Parse()
@@ -37,7 +45,7 @@ func main() {
 	//通过GenUserEnpoint调用服务
 	//endp := Services.GenUserEnpoint(user)
 	//?调用中间件可以直接在后面传参么
-	endp := Services.RateLimit(limit)(Services.GenUserEnpoint(user)) //调用限流代码生成的中间件
+	endp := Services.RateLimit(limit)(Services.UserServiceLogMiddleware(logger)(Services.GenUserEnpoint(user))) //调用限流代码生成的中间件
 
 	options := []httptransport.ServerOption{ //生成ServerOtion切片，传入我们自定义的错误处理函数
 		httptransport.ServerErrorEncoder(util.MyErrorEncoder),

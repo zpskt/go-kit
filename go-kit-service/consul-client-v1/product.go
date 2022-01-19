@@ -1,10 +1,10 @@
 package main
 
 import (
+	"consul-client-v1/Services"
 	"context"
 	"fmt"
 	httptransport "github.com/go-kit/kit/transport/http"
-	"gomicro2/Services"
 	"net/url"
 	"os"
 )

@@ -1,4 +1,4 @@
-module gomicro2
+module consul-client-v1
 
 go 1.17
 

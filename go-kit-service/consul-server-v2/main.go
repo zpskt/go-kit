@@ -46,6 +46,7 @@ func main() {
 	//endp := Services.GenUserEnpoint(user)
 	//?调用中间件可以直接在后面传参么
 	endp := Services.RateLimit(limit)(Services.UserServiceLogMiddleware(logger)(Services.CheckTokenMiddleware()(Services.GenUserEnpoint(user)))) //调用限流代码生成的中间件
+	//endp := Services.RateLimit(limit)(Services.UserServiceLogMiddleware(logger)(Services.GenUserEnpoint(user))) //v1版本
 
 	//增加handler用于获取token
 	accessService := &Services.AccessService{}

@@ -16,9 +16,10 @@
 ### 使用方法
 前提条件，需要server-v1开启。
 监听的服务中心ip为：localhost:8500,服务名字为：userservice。
-以上两个参数在util-UserUtil.go可以实现自定义修改。
+以上两个参数在util-UserUtil.go可以实现自定义修改。  
+执行命令：  
 
-        go run product.go
+        go run main.go
 ### 功能
 util-UserUtil.go: consulapi , 负载均衡
 客户端直连 

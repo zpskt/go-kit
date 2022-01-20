@@ -4,6 +4,7 @@ import (
 	"consul-client-v1/util"
 	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
+	"log"
 )
 
 func main() {
@@ -27,7 +28,7 @@ func main() {
 	})
 
 	if err != nil {
-		//log.Fatal(err)
-		fmt.Println("have err")
+		log.Fatal(err)
+		//fmt.Println("have err")
 	}
 }

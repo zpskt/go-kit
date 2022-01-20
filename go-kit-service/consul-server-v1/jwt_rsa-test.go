@@ -5,7 +5,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"log"
-	"time"
 )
 
 type UserClaim struct { //这个结构体主要是用来宣示当前公钥的使用者是谁，只有使用者和公钥的签名者是同一个人才可以用来正确的解密，还可以设置其他的属性，可以去百度一下
@@ -34,32 +33,15 @@ func main() {
 		log.Fatal("私钥文件不正确")
 	}
 
-	user := UserClaim{Uname: "zp"}
-	//UserClaim嵌套了jwt.StandardClaims，使用它的Add方法添加过期时间是5秒后，这里要使用unix()
-	user.ExpiresAt = time.Now().Add(time.Second * 5).Unix()
-
-	//所有人给xiahualou发送公钥加密的数据，但是只有xiahualou本人可以使用私钥解密
-	token_obj := jwt.NewWithClaims(jwt.SigningMethodRS256, user)
+	token_obj := jwt.NewWithClaims(jwt.SigningMethodRS256, UserClaim{Uname: "xiahualou"}) //所有人给xiahualou发送公钥加密的数据，但是只有xiahualou本人可以使用私钥解密
 	token, _ := token_obj.SignedString(priKey)
-	//通过一秒一次for循环来验证过期生效
-	for {
-		uc := UserClaim{}                                                                                  //要取出的数据
-		getToken, err := jwt.ParseWithClaims(token, &uc, func(token *jwt.Token) (i interface{}, e error) { //使用私钥解密
-			return pubKey, nil //这里的返回值必须是公钥，不然解密肯定是失败
-		})
-		if getToken.Valid { //服务端验证token是否有效
-			fmt.Println(getToken.Claims.(*UserClaim).Uname)
-		} else if ve, ok := err.(*jwt.ValidationError); ok { //官方写法招抄就行
-			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-				fmt.Println("错误的token")
-			} else if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
-				fmt.Println("token过期或未启用")
-			} else {
-				fmt.Println("无法处理这个token", err)
-			}
 
-		}
-		time.Sleep(time.Second)
+	uc := &UserClaim{}
+	getToken, _ := jwt.ParseWithClaims(token, uc, func(token *jwt.Token) (i interface{}, e error) { //使用私钥解密
+		return pubKey, nil //这里的返回值必须是公钥，不然解密肯定是失败
+	})
+	if getToken.Valid { //服务端验证token是否有效
+		fmt.Println(getToken.Claims.(*UserClaim).Uname)
 	}
 
 }

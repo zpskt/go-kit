@@ -19,3 +19,5 @@ Go-kit的三层架构
         go get -u github.com/gorilla/mux
         github.com/go-kit/kit/transport/http
 ## 组件架构
+consul-client-v1和consul-server-v1可以连起来用
+consul-server-v2新加入了jwt验证，需要本机用接口测试看结果

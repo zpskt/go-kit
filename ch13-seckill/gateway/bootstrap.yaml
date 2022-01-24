@@ -17,7 +17,7 @@ config:
   label: "master"
 
 trace:
-  host: 114.67.98.210
+  host: localhost
   port: 9411
   url: /api/v2/spans
 

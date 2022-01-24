@@ -95,6 +95,7 @@ func genTracer(tracer opentracing.Tracer) opentracing.Tracer {
 	zipkinUrl := "http://" + conf.TraceConfig.Host + ":" + conf.TraceConfig.Port + conf.TraceConfig.Url
 	zipkinRecorder := bootstrap.HttpConfig.Host + ":" + bootstrap.HttpConfig.Port
 	collector, err := zipkin.NewHTTPCollector(zipkinUrl)
+
 	if err != nil {
 		log.Fatalf("zipkin.NewHTTPCollector err: %v", err)
 	}

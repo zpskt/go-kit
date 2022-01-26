@@ -1,4 +1,4 @@
-package main
+package mytest
 
 import (
 	"github.com/go-redis/redis"

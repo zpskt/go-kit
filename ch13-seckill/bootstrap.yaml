@@ -1,13 +1,17 @@
 
 http:
   host: localhost
-  port: 9090
+  port: 9032
+
+rpc:
+  host: localhost
+  port: 9132
 
 discover:
   Host: localhost
   port: 8500
-  instanceId: gateway-service-localhost
-  serviceName: gateway
+  instanceId: sk-core-localhost
+  serviceName: sk-core # 要缓存sk-app
 
 
 config:
@@ -20,8 +24,7 @@ trace:
   port: 9411
   url: /api/v2/spans
 
-rpc:
-  port: 1111
+
 
 mysql:
   host: 39.99.214.230

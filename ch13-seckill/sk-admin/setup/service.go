@@ -25,7 +25,7 @@ import (
 //初始化Http服务
 func InitServer(host string, servicePort string) {
 
-	log.Printf("port is ", servicePort)
+	log.Printf("port is %s", servicePort)
 
 	flag.Parse()
 

@@ -40,6 +40,7 @@ func init() {
 	//if err := Sub("mysql", &MysqlConfig); err != nil {
 	//	Logger.Log("Fail to parse mysql", err)
 	//}
+	//Logger.Log("我运行到这里了")
 	if err := Sub("trace", &TraceConfig); err != nil {
 		Logger.Log("Fail to parse trace", err)
 	}
@@ -92,7 +93,13 @@ func LoadRemoteConfig() (err error) {
 }
 
 func Sub(key string, value interface{}) error {
+	//Logger.Log("进入sub函数")
 	Logger.Log("配置文件的前缀为：", key)
+	//if key == "trace" {
+	//	Logger.Log("key是", key)
+	//	key = "trace"
+	//}
+	//Logger.Log("key是", key)
 	sub := viper.Sub(key)
 	sub.AutomaticEnv()
 	sub.SetEnvPrefix(key)

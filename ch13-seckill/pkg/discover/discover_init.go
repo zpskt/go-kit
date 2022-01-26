@@ -57,7 +57,9 @@ func Register() {
 	if instanceId == "" {
 		instanceId = bootstrap.DiscoverConfig.ServiceName + uuid.NewV4().String()
 	}
-
+	log.Println("bootstrap.HttpConfig是", bootstrap.HttpConfig)
+	log.Println("bootstrap.DiscoverConfig：", bootstrap.DiscoverConfig)
+	//这里应该是服务的应用ip：port，
 	if !ConsulService.Register(instanceId, bootstrap.HttpConfig.Host, "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
 		bootstrap.DiscoverConfig.Weight,

@@ -55,7 +55,7 @@ func (consulClient *DiscoveryClientInstance) Register(instanceId, svcHost, healt
 
 	// 2. 发送服务注册到 Consul 中
 	err := consulClient.client.Register(serviceRegistration)
-
+	//fmt.Println(serviceRegistration)
 	if err != nil {
 		if logger != nil {
 			logger.Println("Register Service Error!")

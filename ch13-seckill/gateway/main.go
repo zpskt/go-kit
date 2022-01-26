@@ -23,7 +23,7 @@ func main() {
 
 	// 创建环境变量
 	var (
-		zipkinURL = flag.String("zipkin.url", "http://114.67.98.210:9411/api/v2/spans", "Zipkin server url")
+		zipkinURL = flag.String("zipkin.url", "http://localhost:9411/api/v2/spans", "Zipkin server url")
 	)
 	flag.Parse()
 

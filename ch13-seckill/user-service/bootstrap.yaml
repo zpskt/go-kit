@@ -1,6 +1,6 @@
 
 http:
-  host: 114.67.98.210
+  host: localhost
   port: 9009
 
 rpc:
@@ -8,7 +8,7 @@ rpc:
   port: 9108
 
 discover:
-  Host: 114.67.98.210
+  Host: localhost
   port: 8500
   instanceId: user-service-localhost
   serviceName: user

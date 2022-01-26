@@ -5,6 +5,7 @@ import (
 	"ch13-seckill/sk-app/model"
 	"fmt"
 	"log"
+	"strconv"
 	"sync"
 )
 
@@ -48,7 +49,8 @@ func AntiSpam(req *model.SecRequest) (err error) {
 				secLimit: &SecLimit{},
 				minLimit: &MinLimit{},
 			}
-			SecLimitMgrVars.UserLimitMap[req.ClientAddr] = limit
+			q, _ := strconv.Atoi(req.ClientAddr)
+			SecLimitMgrVars.UserLimitMap[q] = limit
 		}
 
 		secIdCount = limit.secLimit.Count(req.AccessTime) //获取该秒内该用户访问次数

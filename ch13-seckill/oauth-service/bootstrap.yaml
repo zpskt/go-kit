@@ -10,7 +10,7 @@ rpc:
 
 
 discover:
-  Host: 114.67.98.210
+  Host: localhost
   port: 8500
   instanceId: oauth-service-localhost
   serviceName: oauth

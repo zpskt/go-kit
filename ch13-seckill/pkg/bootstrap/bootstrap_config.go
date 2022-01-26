@@ -2,11 +2,18 @@ package bootstrap
 
 import (
 	"fmt"
+	kitlog "github.com/go-kit/kit/log"
 	"github.com/spf13/viper"
 	"log"
+	"os"
 )
 
+var Logger kitlog.Logger
+
 func init() {
+	Logger = kitlog.NewLogfmtLogger(os.Stderr)
+	Logger = kitlog.With(Logger, "ts", kitlog.DefaultTimestampUTC)
+	Logger = kitlog.With(Logger, "caller", kitlog.DefaultCaller)
 	viper.AutomaticEnv()
 	initBootstrapConfig()
 	//读取yaml文件
@@ -35,13 +42,14 @@ func initBootstrapConfig() {
 	//添加读取的配置文件路径
 	viper.AddConfigPath("./")
 	//windows环境下为%GOPATH，linux环境下为$GOPATH
-	viper.AddConfigPath("/Users/zp/mygit/go-kit/ch13-seckill/sk-core/")
+	viper.AddConfigPath("/Users/zp/mygit/go-kit/ch13-seckill/")
 	//设置配置文件类型
 	viper.SetConfigType("yaml")
 }
 
 func subParse(key string, value interface{}) error {
-	log.Printf("配置文件的前缀为：%v", key)
+	Logger.Log("配置文件的前缀为：", key)
+	//log.Printf("配置文件的前缀为：%v", key)
 	sub := viper.Sub(key)
 	sub.AutomaticEnv()
 	sub.SetEnvPrefix(key)

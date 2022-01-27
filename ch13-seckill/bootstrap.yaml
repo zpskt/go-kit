@@ -1,7 +1,7 @@
 
 http:
   host: localhost
-  port: 9032
+  port: 9030
 
 rpc:
   host: localhost
@@ -10,9 +10,8 @@ rpc:
 discover:
   Host: localhost
   port: 8500
-  instanceId: sk-core-localhost
-  serviceName: sk-core # 要缓存sk-app
-
+  instanceId: sk-admin-localhost
+  serviceName: sk-admin
 
 config:
   id: config-service
@@ -24,14 +23,12 @@ trace:
   port: 9411
   url: /api/v2/spans
 
-
-
 mysql:
   host: 39.99.214.230
   port: 3306
   user: root
   pwd: zhangpeng
-  Db: blog
+  Db: seckill
 
 redis:
   host: 39.99.214.230:6379

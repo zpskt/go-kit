@@ -57,7 +57,7 @@ func InitServer(host string, servicePort string) {
 	activityService = service.ActivityServiceImpl{}
 	productService = service.ProductServiceImpl{}
 
-	// add logging middleware
+	// add logging
 	skAdminService = plugins.SkAdminLoggingMiddleware(config.Logger)(skAdminService)
 	skAdminService = plugins.SkAdminMetrics(requestCount, requestLatency)(skAdminService)
 
@@ -97,10 +97,10 @@ func InitServer(host string, servicePort string) {
 	ctx := context.Background()
 	//创建http.Handler
 	r := transport.MakeHttpHandler(ctx, endpts, config.ZipkinTracer, config.Logger)
-
 	//http server
 	go func() {
 		fmt.Println("Http Server start at port:" + servicePort)
+
 		//启动前执行注册
 		register.Register()
 		handler := r

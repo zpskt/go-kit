@@ -20,3 +20,17 @@
 - 5 修改bootstrap文件
 修改各个项目中的bootstrap.yml文件discover相关的consul地址和config-service的相关配置
 
+## 安装注意事项
+### zookeeper
+在启动时可能会遇到这个错误  
+>Error contacting service. It is probably not running.  
+
+这说明你的zookeeper没启动，可以看安装目录/logs/***.out文件看日志 
+1.会默认启用8080端口
+修改zk配置文件，添加下面的配置，端口自定义  
+
+    vim zookeeper/conf/zoo.cfg 
+>admin.serverPort=8001
+
+客户端链接
+    ./zkCli.sh -server 39.99.214.230:2181

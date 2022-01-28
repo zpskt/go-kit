@@ -33,4 +33,18 @@
 >admin.serverPort=8001
 
 客户端链接
-    ./zkCli.sh -server 39.99.214.230:2181
+    ./zkCli.sh -server localhost:2181
+#### zookeeper可视化工具
+    git clone https://github.com/DeemOpen/zkui.git
+    cd zkui
+    mvn clean package -DskipTests=true
+    cp config.cfg ./target/config.cfg
+    java -jar ./target/zkui-2.0-SNAPSHOT-jar-with-dependencies.jar
+访问http://localhost:9090，如能正常访问并看到如下界面，则运行正常
+>角色为ADMIN
+username: admin
+password: manager
+角色为USER
+username: appconfig
+password: appconfig
+

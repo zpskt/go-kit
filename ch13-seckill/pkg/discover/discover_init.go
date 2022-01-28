@@ -51,9 +51,9 @@ func Register() {
 		panic(0)
 	}
 	fmt.Println("-begin test--------------------")
-	//svclist := ConsulService.DiscoverServices("SayHello", Logger)
-	//fmt.Println("我发现的服务有： ", svclist)
-	fmt.Println("consul客户端好用，且也能发现服务，测试通过")
+	svclist := ConsulService.DiscoverServices("config-service", Logger)
+	fmt.Println("我发现的服务有： ", svclist)
+	//fmt.Println("consul客户端好用，且也能发现服务，测试通过")
 	fmt.Println("--test down-------------------")
 
 	//判空 instanceId,通过 go.uuid 获取一个服务实例ID
@@ -64,6 +64,16 @@ func Register() {
 	}
 	log.Println("bootstrap.HttpConfig是", bootstrap.HttpConfig)
 	log.Println("bootstrap.DiscoverConfig ：", bootstrap.DiscoverConfig)
+	//设置weight
+
+	//我要注册consul服务
+	ConsulService.Register(instanceId, bootstrap.HttpConfig.Host, "/health",
+		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
+		bootstrap.DiscoverConfig.Weight,
+		map[string]string{
+			"rpcPort": bootstrap.RpcConfig.Port,
+		}, nil, Logger)
+	//fmt.Println("我注册完服务了")
 	//这里应该是服务的应用ip：port，
 	if !ConsulService.Register(instanceId, bootstrap.HttpConfig.Host, "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,

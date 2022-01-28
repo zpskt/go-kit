@@ -59,6 +59,7 @@ func (consulClient *DiscoveryClientInstance) Register(instanceId, svcHost, healt
 	if err != nil {
 		if logger != nil {
 			logger.Println("Register Service Error!")
+			logger.Println("error is :", err)
 		}
 		return false
 	}

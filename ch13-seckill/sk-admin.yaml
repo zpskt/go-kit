@@ -12,11 +12,14 @@ discover:
   port: 8500
   instanceId: sk-admin-localhost
   serviceName: sk-admin
+  weight: 1
+
 
 config:
   id: config-service
   profile: "dev"
-  label: "master"
+
+
 
 trace:
   host: localhost

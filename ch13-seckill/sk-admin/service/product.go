@@ -2,6 +2,7 @@ package service
 
 import (
 	"ch13-seckill/sk-admin/model"
+	"fmt"
 	"github.com/gohouse/gorose/v2"
 	"log"
 )
@@ -18,9 +19,11 @@ type ProductServiceImpl struct {
 
 func (p ProductServiceImpl) CreateProduct(product *model.Product) error {
 	productEntity := model.NewProductModel()
+	fmt.Println("我要开始创建商品了")
 	err := productEntity.CreateProduct(product)
 	if err != nil {
 		log.Printf("ProductEntity.CreateProduct, err : %v", err)
+		fmt.Println("创建商品的错误是：", err)
 		return err
 	}
 	return nil

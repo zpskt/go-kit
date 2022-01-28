@@ -24,6 +24,6 @@ func main() {
 
 	//传入两个参数，服务的ip和端口
 	setup.InitServer(bootstrap.HttpConfig.Host, bootstrap.HttpConfig.Port)
-	fmt.Println("\n服务初始化成功")
+	//fmt.Println("\n服务初始化成功")
 
 }

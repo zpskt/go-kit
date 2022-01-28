@@ -28,8 +28,6 @@ redis:
   ip_black_list_hash: 12
   id_black_list_queue: 12
 
-
-
 http:
   host: localhost
 

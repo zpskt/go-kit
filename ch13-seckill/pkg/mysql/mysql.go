@@ -10,8 +10,8 @@ var engin *gorose.Engin
 var err error
 
 func InitMysql(hostMysql, portMysql, userMysql, pwdMysql, dbMysql string) {
-	fmt.Printf(userMysql)
-	fmt.Printf(dbMysql)
+	fmt.Printf("数据库账户名为%s: ", userMysql)
+	fmt.Printf("数据库为%s: ", dbMysql)
 
 	DbConfig := gorose.Config{
 		// Default database configuration

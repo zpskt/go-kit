@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-//初始化Etcd
+//初始化zookeeper
 func InitZk() {
 	var hosts = []string{"localhost:2181"}
 	conn, _, err := zk.Connect(hosts, time.Second*5)
@@ -16,5 +16,6 @@ func InitZk() {
 		return
 	}
 	conf.Zk.ZkConn = conn
+	//设置关键字
 	conf.Zk.SecProductKey = "/product"
 }

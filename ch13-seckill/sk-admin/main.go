@@ -12,7 +12,7 @@ import (
 func main() {
 
 	//初始化mysql
-	fmt.Println("mysqlConfig是：", conf.MysqlConfig)
+	//fmt.Println("mysqlConfig是：", conf.MysqlConfig)
 	mysql.InitMysql(conf.MysqlConfig.Host, conf.MysqlConfig.Port, conf.MysqlConfig.User, conf.MysqlConfig.Pwd, conf.MysqlConfig.Db) // conf.MysqlConfig.Db
 
 	fmt.Println("\nmysql初始化成功")

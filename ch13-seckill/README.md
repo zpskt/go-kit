@@ -48,3 +48,9 @@ password: manager
 username: appconfig
 password: appconfig
 
+### 使用方法
+#### sk-admin
+打开consul，zookeeper，mysql,[zipkin-server](https://github.com/openzipkin/zipkin)
+
+
+    go run ./sk-admin/main.go 

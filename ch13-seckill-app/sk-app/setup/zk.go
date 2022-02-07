@@ -12,8 +12,8 @@ import (
 //初始化Etcd
 func InitZk() {
 	var hosts = []string{"localhost:2181"}
-	option := zk.WithEventCallback(waitSecProductEvent)
-	conn, _, err := zk.Connect(hosts, time.Second*5, option)
+	//option := zk.WithEventCallback(waitSecProductEvent)
+	conn, _, err := zk.Connect(hosts, time.Second*5)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -21,14 +21,13 @@ func InitZk() {
 
 	conf.Zk.ZkConn = conn
 	conf.Zk.SecProductKey = "/product"
-	go loadSecConf(conn)
+	loadSecConf(conn)
 }
 
 //加载秒杀商品信息
 func loadSecConf(conn *zk.Conn) {
-	log.Printf("Connect zk sucess %s", conf.Etcd.EtcdSecProductKey)
+	log.Printf("Connect zk sucess %s", conf.Zk.SecProductKey)
 	v, _, err := conn.Get(conf.Zk.SecProductKey) //conf.Etcd.EtcdSecProductKey
-	log.Println("zk的配置是： ", conf.Zk)
 	if err != nil {
 		log.Printf("get product info failed, err : %v", err)
 		return
@@ -39,11 +38,15 @@ func loadSecConf(conn *zk.Conn) {
 	if err1 != nil {
 		log.Printf("Unmsharl second product info failed, err : %v", err1)
 	}
-	log.Printf("秒杀商品是： ", secProductInfo)
 	updateSecProductInfo(secProductInfo)
 }
 
 func waitSecProductEvent(event zk.Event) {
+	log.Print(">>>>>>>>>>>>>>>>>>>")
+	log.Println("path:", event.Path)
+	log.Println("type:", event.Type.String())
+	log.Println("state:", event.State.String())
+	log.Println("<<<<<<<<<<<<<<<<<<<")
 	if event.Path == conf.Zk.SecProductKey {
 
 	}
@@ -76,6 +79,7 @@ func waitSecProductEvent(event zk.Event) {
 func updateSecProductInfo(secProductInfo []*conf.SecProductInfoConf) {
 	tmp := make(map[int]*conf.SecProductInfoConf, 1024)
 	for _, v := range secProductInfo {
+		log.Printf("updateSecProductInfo %v", v)
 		tmp[v.ProductId] = v
 	}
 	conf.SecKill.RWBlackLock.Lock()

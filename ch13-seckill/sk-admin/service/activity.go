@@ -80,7 +80,9 @@ func (p ActivityServiceImpl) CreateActivity(activity *model.Activity) error {
 func (p ActivityServiceImpl) syncToZk(activity *model.Activity) error {
 
 	zkPath := conf.Zk.SecProductKey
+	fmt.Println("zk的secproductkey是：", zkPath)
 	secProductInfoList, err := p.loadProductFromZk(zkPath)
+	fmt.Println("zk中产品列表为：", secProductInfoList)
 	if err != nil {
 		secProductInfoList = []*model.SecProductInfoConf{}
 	}
@@ -94,6 +96,8 @@ func (p ActivityServiceImpl) syncToZk(activity *model.Activity) error {
 	secProductInfo.Status = activity.Status
 	secProductInfo.Total = activity.Total
 	secProductInfo.BuyRate = activity.BuyRate
+
+	fmt.Println("新的secProduct是： ", secProductInfo)
 	secProductInfoList = append(secProductInfoList, secProductInfo)
 
 	data, err := json.Marshal(secProductInfoList)
@@ -114,12 +118,12 @@ func (p ActivityServiceImpl) syncToZk(activity *model.Activity) error {
 	if exisits {
 		_, err_set := conn.Set(zkPath, byteData, flags)
 		if err_set != nil {
-			fmt.Println(err_set)
+			fmt.Println("zk添加失败", err_set)
 		}
 	} else {
 		_, err_create := conn.Create(zkPath, byteData, flags, acls)
 		if err_create != nil {
-			fmt.Println(err_create)
+			fmt.Println("zk新建失败：", err_create)
 		}
 	}
 
@@ -127,6 +131,7 @@ func (p ActivityServiceImpl) syncToZk(activity *model.Activity) error {
 	return nil
 }
 
+//从zk中加载产品
 func (p ActivityServiceImpl) loadProductFromZk(key string) ([]*model.SecProductInfoConf, error) {
 	_, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()

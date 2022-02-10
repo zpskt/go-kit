@@ -50,11 +50,11 @@ func Register() {
 	if ConsulService == nil {
 		panic(0)
 	}
-	fmt.Println("-begin test--------------------")
-	svclist := ConsulService.DiscoverServices("config-service", Logger)
-	fmt.Println("我发现的服务有： ", svclist)
-	//fmt.Println("consul客户端好用，且也能发现服务，测试通过")
-	fmt.Println("--test down-------------------")
+	//fmt.Println("-begin test--------------------")
+	//svclist := ConsulService.DiscoverServices("config-service", Logger)
+	//fmt.Println("我发现的服务有： ", svclist)
+	////fmt.Println("consul客户端好用，且也能发现服务，测试通过")
+	//fmt.Println("--test down-------------------")
 
 	//判空 instanceId,通过 go.uuid 获取一个服务实例ID
 	instanceId := bootstrap.DiscoverConfig.InstanceId

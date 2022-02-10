@@ -34,7 +34,7 @@ func MakeHttpHandler(ctx context.Context, endpoints endpts.SkAppEndpoints, zipki
 		zipkinServer,
 	}
 
-	r.Methods("GET").Path("/sec/info").Handler(kithttp.NewServer(
+	r.Methods("POST").Path("/sec/info").Handler(kithttp.NewServer(
 		endpoints.GetSecInfoEndpoint,
 		decodeSecInfoRequest,
 		encodeResponse,
@@ -78,11 +78,12 @@ func MakeHttpHandler(ctx context.Context, endpoints endpts.SkAppEndpoints, zipki
 // decodeUserRequest decode request params to struct
 func decodeSecInfoRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var secInfoRequest endpts.SecInfoRequest
-	fmt.Println("r.Body 是： ", r)
+
 	if err := json.NewDecoder(r.Body).Decode(&secInfoRequest); err != nil {
 		fmt.Println("_________err is : ", err)
 		return nil, err
 	}
+	fmt.Println("secInfoRequest是： ", secInfoRequest)
 	return secInfoRequest, nil
 
 }

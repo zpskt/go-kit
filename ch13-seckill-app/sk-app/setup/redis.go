@@ -11,7 +11,7 @@ import (
 
 //初始化Redis
 func InitRedis() {
-	log.Printf("init redis %s", conf.Redis.Password)
+	log.Printf("连接 redis 数据库： %s", conf.Redis.Db)
 	client := redis.NewClient(&redis.Options{
 		Addr:     conf.Redis.Host,
 		Password: conf.Redis.Password,
@@ -22,9 +22,9 @@ func InitRedis() {
 	if err != nil {
 		log.Printf("Connect redis failed. Error : %v", err)
 	}
-	log.Printf("init redis success")
+	log.Printf("connect redis %s success", conf.Redis.Db)
 	conf.Redis.RedisConn = client
-
+	//加载黑名单ip列表
 	loadBlackList(client)
 	initRedisProcess()
 }
@@ -57,7 +57,7 @@ func loadBlackList(conn *redis.Client) {
 		log.Printf("hget all failed. Error : %v", err)
 		return
 	}
-
+	log.Printf("用户ip为： ", ipList)
 	for _, v := range ipList {
 		conf.SecKill.IPBlackMap[v] = true
 	}
@@ -117,12 +117,16 @@ func syncIpBlackList(conn *redis.Client) {
 
 //初始化redis进程
 func initRedisProcess() {
+	//根据系统业务配置数据中心中配置的属性值，启动对应数量的协程执行 WriteHandle和ReadHandle 。，
+	//把SecReqChan中的请求发送到Redis对应（**）队列，使用BPpop监听Redis的对应队列，获取秒杀系统返回值，将其发送到resultChan
 	log.Printf("initRedisProcess %d %d", conf.SecKill.AppWriteToHandleGoroutineNum, conf.SecKill.AppReadFromHandleGoroutineNum)
 	for i := 0; i < conf.SecKill.AppWriteToHandleGoroutineNum; i++ {
+		//写数据到redis进程
 		go srv_redis.WriteHandle()
 	}
 
 	for i := 0; i < conf.SecKill.AppReadFromHandleGoroutineNum; i++ {
 		go srv_redis.ReadHandle()
 	}
+
 }

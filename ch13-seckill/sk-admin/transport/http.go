@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/tracing/zipkin"
 	"github.com/go-kit/kit/transport"
@@ -43,7 +44,7 @@ func MakeHttpHandler(ctx context.Context, endpoints endpts.SkAdminEndpoints, zip
 	))
 
 	r.Methods("POST").Path("/product/create").Handler(kithttp.NewServer(
-		endpoints.GetProductEndpoint,
+		endpoints.CreateProductEndpoint,
 		decodeCreateProductCheckRequest,
 		encodeResponse,
 		options...,
@@ -111,6 +112,7 @@ func decodeCreateProductCheckRequest(ctx context.Context, r *http.Request) (inte
 	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
 		return nil, err
 	}
+	fmt.Println("product", product)
 	return product, nil
 }
 

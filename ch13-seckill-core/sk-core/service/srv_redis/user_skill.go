@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+//从Read2HandleChan获取请求，调用HandleSeckill对用户秒杀进行处理，返回结果推入Handle2WriteChan，等待结果并写入到redis
 func HandleUser() {
 	log.Println("handle user running")
 	for req := range config.SecLayerCtx.Read2HandleChan {
@@ -34,6 +35,7 @@ func HandleUser() {
 	return
 }
 
+//限制用户对商品的购买次数，对商品抢购频次进行限制，对抢购概率进行限制，对合法的抢购给予生成抢购资格Token令牌
 func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
 	config.SecLayerCtx.RWSecProductLock.RLock()
 	defer config.SecLayerCtx.RWSecProductLock.RUnlock()

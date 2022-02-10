@@ -10,6 +10,8 @@ import (
 )
 
 func RunProcess() {
+	log.Println("初始化redis，监听redis队列，并依次处理redis中的请求")
+
 	for i := 0; i < conf.SecKill.CoreReadRedisGoroutineNum; i++ {
 		go HandleReader()
 	}
@@ -26,7 +28,9 @@ func RunProcess() {
 	return
 }
 
+//将redis队列中的数据转化成呢业务层能处理的数据，并推入到Read2HandleChan，同时设置超时判断
 func HandleReader() {
+
 	log.Printf("read goroutine running %v", conf.Redis.Proxy2layerQueueName)
 	for {
 		conn := conf.Redis.RedisConn
@@ -67,6 +71,7 @@ func HandleReader() {
 	}
 }
 
+//把HandleUser写入到Handle2WriteChan的数据读出来，调用sendToRedis发送到
 func HandleWrite() {
 	log.Println("handle write running")
 
@@ -80,7 +85,7 @@ func HandleWrite() {
 	}
 }
 
-//将数据推入到Redis队列
+//将数据推入到Redis队列Layer2proxyQueueName，业务系统会拉取返回的秒杀结果数据
 func sendToRedis(res *config.SecResult) (err error) {
 	data, err := json.Marshal(res)
 	if err != nil {

@@ -23,6 +23,7 @@ config:
 
 trace:
   host: 39.99.214.230
+#  host: localhost
   port: 9411
   url: /api/v2/spans
 

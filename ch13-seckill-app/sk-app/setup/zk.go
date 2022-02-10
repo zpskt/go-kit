@@ -21,6 +21,7 @@ func InitZk() {
 
 	conf.Zk.ZkConn = conn
 	conf.Zk.SecProductKey = "/product"
+	//加载秒杀商品信息
 	loadSecConf(conn)
 }
 
@@ -75,7 +76,7 @@ func waitSecProductEvent(event zk.Event) {
 //	}
 //}
 
-//更新秒杀商品信息
+//更新秒杀商品信息；监听秒杀商品配置
 func updateSecProductInfo(secProductInfo []*conf.SecProductInfoConf) {
 	tmp := make(map[int]*conf.SecProductInfoConf, 1024)
 	for _, v := range secProductInfo {

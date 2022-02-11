@@ -76,7 +76,8 @@ func HandleWrite() {
 	log.Println("handle write running")
 
 	for res := range config.SecLayerCtx.Handle2WriteChan {
-		fmt.Println("===", res)
+		log.Println("res是：", res)
+		log.Printf("发送到redis...")
 		err := sendToRedis(res)
 		if err != nil {
 			log.Printf("send to redis, err : %v, res : %v", err, res)
@@ -93,10 +94,10 @@ func sendToRedis(res *config.SecResult) (err error) {
 		return
 	}
 
-	fmt.Printf("推入队列前~~ %v", conf.Redis.Layer2proxyQueueName)
+	log.Println("推入队列:  ", conf.Redis.Layer2proxyQueueName)
 	conn := conf.Redis.RedisConn
 	err = conn.LPush(conf.Redis.Layer2proxyQueueName, string(data)).Err()
-	fmt.Println("推入队列后~~")
+	log.Println("推入队列后~~", conf.Redis.Layer2proxyQueueName)
 	if err != nil {
 		log.Printf("rpush layer to proxy redis queue failed, err : %v", err)
 		return

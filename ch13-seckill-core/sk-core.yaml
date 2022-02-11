@@ -55,8 +55,18 @@ service:
   write_proxy2layer_goroutine_num: 100
   read_proxy2layer_goroutine_num: 100
   cookie_secretkey: zxfyazzaa
-  refer_whitelist:
-    - test
+  refer_whitelist: test,test1
+  AppWriteToHandleGoroutineNum: 10
+  AppReadFromHandleGoroutineNum: 10
+  CoreReadRedisGoroutineNum: 10
+  CoreWriteRedisGoroutineNum: 10
+  CoreHandleGoroutineNum: 20
+  AppWaitResultTimeout: 500
+  CoreWaitResultTimeout: 500
+  MaxRequestWaitTimeout: 500
+  SendToWriteChanTimeout: 500
+  SendToHandleChanTimeout: 500
+  TokenPassWd: go
 auth:
   permitAll:
     -

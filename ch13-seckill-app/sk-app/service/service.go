@@ -59,6 +59,7 @@ func (s SkAppService) SecKill(req *model.SecRequest) (map[string]interface{}, in
 	//defer config.SkAppContext.RWSecProductLock.RUnlock()
 	var code int
 	//1。黑名单校验，2。流量限制
+	log.Printf("req is: ", req)
 	err := srv_limit.AntiSpam(req)
 	if err != nil {
 		code = srv_err.ErrUserServiceBusy
@@ -67,12 +68,15 @@ func (s SkAppService) SecKill(req *model.SecRequest) (map[string]interface{}, in
 	}
 	//3。获取商品信息
 	data, code, err := SecInfoById(req.ProductId)
+	//当前错误是没找到product_id是
 	if err != nil {
+		log.Printf("获取商品信息出错，原因是： ", err)
 		log.Printf("userId[%d] secInfoById Id failed, req[%v]", req.UserId, req)
 		return nil, code, err
 	}
 	//4。把请求推入到SecReqChan，该请求会经过redis队列，最终呗core处理，并经过另一个redis队列发送到resultChan
 	userKey := fmt.Sprintf("%d_%d", req.UserId, req.ProductId)
+	log.Printf("userKey是", userKey)
 	ResultChan := make(chan *model.SecResult, 1)
 	config.SkAppContext.UserConnMapLock.Lock()
 	config.SkAppContext.UserConnMap[userKey] = ResultChan
@@ -141,7 +145,7 @@ func SecInfoById(productId int) (map[string]interface{}, int, error) {
 	//对Map加锁处理
 	//config.SkAppContext.RWSecProductLock.RLock()
 	//defer config.SkAppContext.RWSecProductLock.RUnlock()
-	log.Printf("我要开始根据商品id查询商品信息了")
+	log.Printf("我要开始根据商品id： %s 查询商品信息了", productId)
 	var code int
 	v, ok := conf.SecKill.SecProductInfoMap[productId]
 
@@ -160,13 +164,13 @@ func SecInfoById(productId int) (map[string]interface{}, int, error) {
 		status = "second kill not start"
 		code = srv_err.ErrActiveNotStart
 		err = fmt.Errorf(status)
-		fmt.Println("秒杀活动还没开始")
+		fmt.Println("商品秒杀活动还没开始")
 	}
 
 	//秒杀活动已经开始
 	if nowTime-v.StartTime > 0 {
 		start = true
-		fmt.Println("秒杀活动已经开始")
+		fmt.Println("商品秒杀活动已经开始")
 	}
 
 	//秒杀活动已经结束
@@ -176,7 +180,7 @@ func SecInfoById(productId int) (map[string]interface{}, int, error) {
 		status = "second kill is already end"
 		code = srv_err.ErrActiveAlreadyEnd
 		err = fmt.Errorf(status)
-		fmt.Println("秒杀活动已经结束")
+		fmt.Println("商品秒杀活动已经结束")
 	}
 
 	//商品已经被停止或售磬
@@ -186,7 +190,7 @@ func SecInfoById(productId int) (map[string]interface{}, int, error) {
 		status = "product is sale out"
 		code = srv_err.ErrActiveSaleOut
 		err = fmt.Errorf(status)
-		fmt.Println("商品已经被停止或售磬")
+		fmt.Println("商品商品已经被停止或售磬")
 	}
 
 	//curRate := rand.Float64()

@@ -71,28 +71,38 @@ func AntiSpam(req *model.SecRequest) (err error) {
 	}
 	//释放锁
 	SecLimitMgrVars.lock.Unlock()
-
+	fmt.Println("用户一秒访问次数为： ", secIdCount)
+	fmt.Println("用户一分钟访问次数为： ", minIdCount)
+	fmt.Println("配置的最大访问次数是：", conf.SecKill.AccessLimitConf)
 	//判断该用户一秒内访问次数是否大于配置的最大访问次数
 	if secIdCount > conf.SecKill.AccessLimitConf.UserSecAccessLimit {
 		err = fmt.Errorf("invalid request")
+		err = fmt.Errorf("一秒内访问次数超过阈值")
+
 		return
 	}
 
 	//判断该用户一分钟内访问次数是否大于配置的最大访问次数
 	if minIdCount > conf.SecKill.AccessLimitConf.UserMinAccessLimit {
 		err = fmt.Errorf("invalid request")
+		err = fmt.Errorf("判断该用户一分钟内访问次数大于配置的最大访问次数")
+
 		return
 	}
 
 	//判断该IP一秒内访问次数是否大于配置的最大访问次数
 	if secIpCount > conf.SecKill.AccessLimitConf.IPSecAccessLimit {
 		err = fmt.Errorf("invalid request")
+		err = fmt.Errorf("判断该IP一秒内访问次数大于配置的最大访问次数")
+
 		return
 	}
 
 	//判断该IP一分钟内访问次数是否大于配置的最大访问次数
 	if minIpCount > conf.SecKill.AccessLimitConf.IPMinAccessLimit {
 		err = fmt.Errorf("invalid request")
+		err = fmt.Errorf("判断该IP一分钟内访问次数大于配置的最大访问次数")
+
 		return
 	}
 

@@ -16,6 +16,8 @@ func HandleUser() {
 	log.Println("handle user running")
 	for req := range config.SecLayerCtx.Read2HandleChan {
 		log.Printf("begin process request : %v", req)
+
+		//处理用户秒杀
 		res, err := HandleSeckill(req)
 		if err != nil {
 			log.Printf("process request %v failed, err : %v", err)
@@ -23,7 +25,7 @@ func HandleUser() {
 				Code: srv_err.ErrServiceBusy,
 			}
 		}
-		fmt.Println("处理中~~ ", res)
+		log.Println("HandleUser处理中~~ ", res)
 		timer := time.NewTicker(time.Millisecond * time.Duration(conf.SecKill.SendToWriteChanTimeout))
 		select {
 		case config.SecLayerCtx.Handle2WriteChan <- res:
@@ -39,7 +41,7 @@ func HandleUser() {
 func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
 	config.SecLayerCtx.RWSecProductLock.RLock()
 	defer config.SecLayerCtx.RWSecProductLock.RUnlock()
-
+	log.Println("HandleSeckill在处理中")
 	res = &config.SecResult{}
 	res.ProductId = req.ProductId
 	res.UserId = req.UserId

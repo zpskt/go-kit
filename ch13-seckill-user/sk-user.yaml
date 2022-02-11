@@ -12,6 +12,8 @@ discover:
   port: 8500
   instanceId: user-service-localhost
   serviceName: user
+  weight: 1
+
 
 config:
   id: config-service

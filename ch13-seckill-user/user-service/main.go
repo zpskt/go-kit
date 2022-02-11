@@ -87,6 +87,7 @@ func main() {
 		mysql.InitMysql(conf.MysqlConfig.Host, conf.MysqlConfig.Port, conf.MysqlConfig.User, conf.MysqlConfig.Pwd, conf.MysqlConfig.Db)
 		//启动前执行注册
 		register.Register()
+		fmt.Println("我已经注册完服务了。。。。。")
 		handler := r
 		errChan <- http.ListenAndServe(":"+*servicePort, handler)
 	}()

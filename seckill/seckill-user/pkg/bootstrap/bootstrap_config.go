@@ -42,7 +42,7 @@ func initBootstrapConfig() {
 	//添加读取的配置文件路径
 	viper.AddConfigPath("./")
 	//windows环境下为%GOPATH，linux环境下为$GOPATH
-	viper.AddConfigPath("/Users/zp/mygit/go-kit/seckill-user")
+	//viper.AddConfigPath("/Users/zp/mygit/go-kit/seckill-user")
 	//设置配置文件类型
 	viper.SetConfigType("yaml")
 }

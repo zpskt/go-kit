@@ -9,7 +9,7 @@ import (
 
 //初始化zookeeper
 func InitZk() {
-	var hosts = []string{"localhost:2181"}
+	var hosts = []string{"39.99.218.6:2181"}
 	conn, _, err := zk.Connect(hosts, time.Second*5)
 	if err != nil {
 		fmt.Println("InitZk有错 err：", err)

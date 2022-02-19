@@ -5,7 +5,7 @@ RUN mkdir /app
 #复制代码
 COPY . /app
 #设置工作目录
-WORKDIR /app/sk-admin
+WORKDIR /app/sk-app
 
 #设置代理
 ENV GOPROXY https://goproxy.cn,direct
@@ -16,5 +16,5 @@ RUN go build .
 
 
 #最终运行docker的命令
-ENTRYPOINT  ["./sk-admin"]
+ENTRYPOINT  ["./sk-app"]
 #docker网络配置，容器通讯。

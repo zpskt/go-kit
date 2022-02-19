@@ -1,0 +1,69 @@
+version: '2'  #设定版本
+services:
+  consul:
+    image: consul:latest
+    container_name: secconsul
+    ports:
+      - "8500:8500"
+    #    command: agent -client=0.0.0.0 -retry-join=consul1 -ui -node=client1 -datacenter=dc1
+    command: agent -server -bootstrap -ui -node=1 -client='0.0.0.0'
+  zoo1:
+    image: zookeeper:latest
+#    restart: always
+    ports:
+      - "2181:2181"
+  mysql:
+    image: mysql:5.7.14
+    environment:
+      MYSQL_ROOT_PASSWORD: "zhangpeng"
+      MYSQL_DATABASE: "seckill"
+    command: [
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+    ]
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis
+    #    container_name: my_redis
+    command: redis-server --requirepass "zhangpeng"  #设置redis密码
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data:/data
+  seckilladmin:
+    build:
+      context: ./seckill-admin
+      dockerfile: Dockerfile
+    container_name: sk-admin
+    depends_on:
+      - consul
+      - zoo1
+      - mysql
+      - redis
+    ports:
+      - "9030:9030"
+  seckillapp:
+    build:
+      context: ./seckill-app
+      dockerfile: Dockerfile
+    container_name: sk-app
+    depends_on:
+      - consul
+      - zoo1
+      - mysql
+      - redis
+    ports:
+      - "9031:9031"
+  seckillcore:
+    build:
+      context: ./seckill-core
+      dockerfile: Dockerfile
+    container_name: sk-core
+    depends_on:
+      - consul
+      - zoo1
+      - mysql
+      - redis
+    ports:
+      - "9032:9032"

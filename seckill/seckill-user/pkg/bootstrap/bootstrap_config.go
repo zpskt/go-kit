@@ -38,7 +38,7 @@ func init() {
 }
 func initBootstrapConfig() {
 	//设置读取的配置文件
-	viper.SetConfigName("sk-user")
+	viper.SetConfigName("bootstrap")
 	//添加读取的配置文件路径
 	viper.AddConfigPath("./")
 	//windows环境下为%GOPATH，linux环境下为$GOPATH

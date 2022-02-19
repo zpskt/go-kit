@@ -23,6 +23,8 @@ services:
     ]
     ports:
       - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d   #所有这个目录下的sql都会执行
   redis:
     image: redis
     #    container_name: my_redis

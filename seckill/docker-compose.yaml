@@ -7,16 +7,18 @@ services:
       - "8500:8500"
     #    command: agent -client=0.0.0.0 -retry-join=consul1 -ui -node=client1 -datacenter=dc1
     command: agent -server -bootstrap -ui -node=1 -client='0.0.0.0'
-  zoo1:
+  seczool:
     image: zookeeper:latest
 #    restart: always
+    container_name: seczool
+
     ports:
       - "2181:2181"
   mysql:
     image: mysql:5.7.14
     environment:
       MYSQL_ROOT_PASSWORD: "zhangpeng"
-      MYSQL_DATABASE: "seckill"
+#      MYSQL_DATABASE: "seckill"
     command: [
         '--character-set-server=utf8mb4',
         '--collation-server=utf8mb4_unicode_ci',
@@ -33,11 +35,11 @@ services:
       - "6379:6379"
     volumes:
       - ./data:/data
-  seckilladmin:
+  admin:
     build:
       context: ./seckill-admin
       dockerfile: Dockerfile
-    container_name: sk-admin
+#    container_name: sk-admin
     depends_on:
       - consul
       - zoo1
@@ -45,11 +47,11 @@ services:
       - redis
     ports:
       - "9030:9030"
-  seckillapp:
+  app:
     build:
       context: ./seckill-app
       dockerfile: Dockerfile
-    container_name: sk-app
+#    container_name: sk-app
     depends_on:
       - consul
       - zoo1
@@ -57,11 +59,11 @@ services:
       - redis
     ports:
       - "9031:9031"
-  seckillcore:
+  core:
     build:
       context: ./seckill-core
       dockerfile: Dockerfile
-    container_name: sk-core
+#    container_name: sk-core
     depends_on:
       - consul
       - zoo1

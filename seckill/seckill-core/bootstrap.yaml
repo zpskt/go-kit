@@ -1,17 +1,16 @@
 http:
   host: localhost
-  port: 9031
+  port: 9032
 
 rpc:
   host: localhost
   port: 9132
 
-
 discover:
-  Host: localhost
+  Host: secconsul
   port: 8500
-  instanceId: sk-app-localhost
-  serviceName: sk-app # 要缓存sk-app
+  instanceId: sk-core-localhost
+  serviceName: sk-core # 要缓存sk-app
   weight: 1
 
 
@@ -22,12 +21,11 @@ discover:
 config:
   id: config-service
   profile: "dev"
-  label: "master"
+
 
 
 trace:
   host: 39.99.214.230
-#  host: localhost
   port: 9411
   url: /api/v2/spans
 
@@ -62,18 +60,13 @@ service:
   AppReadFromHandleGoroutineNum: 10
   CoreReadRedisGoroutineNum: 10
   CoreWriteRedisGoroutineNum: 10
-  CoreHandleGoroutineNum: 10
-  AppWaitResultTimeout: 400
+  CoreHandleGoroutineNum: 20
+  AppWaitResultTimeout: 500
   CoreWaitResultTimeout: 500
   MaxRequestWaitTimeout: 500
   SendToWriteChanTimeout: 500
   SendToHandleChanTimeout: 500
   TokenPassWd: go
-  AccessLimitConf:
-    IPSecAccessLimit: 1000000
-    UserSecAccessLimit: 1000000
-    IPMinAccessLimit: 10000000
-    UserMinAccessLimit: 10000000
 auth:
   permitAll:
     -

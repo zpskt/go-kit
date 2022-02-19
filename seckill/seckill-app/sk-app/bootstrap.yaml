@@ -8,7 +8,7 @@ rpc:
 
 
 discover:
-  Host: localhost
+  Host: secconsul
   port: 8500
   instanceId: sk-app-localhost
   serviceName: sk-app # 要缓存sk-app

@@ -67,7 +67,7 @@ func Register() {
 	//设置weight
 
 	//我要注册consul服务
-	ConsulService.Register(instanceId, bootstrap.HttpConfig.Host, "/health",
+	ConsulService.Register(instanceId, "sk-core", "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
 		bootstrap.DiscoverConfig.Weight,
 		map[string]string{

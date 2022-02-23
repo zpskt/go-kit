@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"time"
 )
 
 var Logger kitlog.Logger
@@ -37,6 +38,8 @@ func init() {
 	}
 }
 func initBootstrapConfig() {
+	Logger.Log("开始延时：")
+	time.Sleep(50 * time.Second)
 	//设置读取的配置文件
 	viper.SetConfigName("bootstrap")
 	//添加读取的配置文件路径

@@ -57,7 +57,7 @@ func Register() {
 	if instanceId == "" {
 		instanceId = bootstrap.DiscoverConfig.ServiceName + uuid.NewV4().String()
 	}
-
+	bootstrap.HttpConfig.Host = "sk-admin"
 	if !ConsulService.Register(instanceId, bootstrap.HttpConfig.Host, "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
 		bootstrap.DiscoverConfig.Weight,

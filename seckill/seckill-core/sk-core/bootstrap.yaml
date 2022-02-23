@@ -30,14 +30,14 @@ trace:
   url: /api/v2/spans
 
 mysql:
-  host: 39.99.214.230
+  host: secmysql
   port: 3306
   user: root
   pwd: zhangpeng
   Db: seckill
 
 redis:
-  host: 39.99.214.230:6379
+  host: secredis:6379
   password: zhangpeng
   db: 0
   Proxy2layerQueueName: proxy2layer

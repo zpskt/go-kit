@@ -75,7 +75,7 @@ func Register() {
 		}, nil, Logger)
 	//fmt.Println("我注册完服务了")
 	//这里应该是服务的应用ip：port，
-	if !ConsulService.Register(instanceId, bootstrap.HttpConfig.Host, "/health",
+	if !ConsulService.Register(instanceId, "sk-admin", "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
 		bootstrap.DiscoverConfig.Weight,
 		map[string]string{

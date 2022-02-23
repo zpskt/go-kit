@@ -41,12 +41,12 @@ CREATE TABLE `activity` (
 -- ----------------------------
 -- Records of activity
 -- ----------------------------
-BEGIN;
-INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (1, '香蕉大甩卖', 1, 530871061, 530872061, 20, 0, 1, 1, 0.20);
-INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (2, '苹果大甩卖', 2, 530871061, 530872061, 20, 0, 1, 1, 0.20);
-INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (3, '桃子大甩卖', 3, 1530928052, 1530989052, 20, 0, 1, 1, 0.20);
-INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (4, '梨子大甩卖', 4, 1530928052, 1530989052, 20, 0, 1, 1, 0.20);
-COMMIT;
+-- BEGIN;
+-- INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (1, '香蕉大甩卖', 1, 530871061, 530872061, 20, 0, 1, 1, 0.20);
+-- INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (2, '苹果大甩卖', 2, 530871061, 530872061, 20, 0, 1, 1, 0.20);
+-- INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (3, '桃子大甩卖', 3, 1530928052, 1530989052, 20, 0, 1, 1, 0.20);
+-- INSERT INTO `activity` (`activity_id`, `activity_name`, `product_id`, `start_time`, `end_time`, `total`, `status`, `sec_speed`, `buy_limit`, `buy_rate`) VALUES (4, '梨子大甩卖', 4, 1530928052, 1530989052, 20, 0, 1, 1, 0.20);
+-- COMMIT;
 
 -- ----------------------------
 -- Table structure for product

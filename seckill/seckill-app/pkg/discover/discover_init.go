@@ -67,7 +67,7 @@ func Register() {
 	//设置weight
 
 	//我要注册consul服务
-	ConsulService.Register(instanceId, "sk-app", "/health",
+	ConsulService.Register(instanceId, "app-svc", "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
 		bootstrap.DiscoverConfig.Weight,
 		map[string]string{
@@ -75,7 +75,7 @@ func Register() {
 		}, nil, Logger)
 	//fmt.Println("我注册完服务了")
 	//这里应该是服务的应用ip：port，
-	if !ConsulService.Register(instanceId, "sk-app", "/health",
+	if !ConsulService.Register(instanceId, "app-svc", "/health",
 		bootstrap.HttpConfig.Port, bootstrap.DiscoverConfig.ServiceName,
 		bootstrap.DiscoverConfig.Weight,
 		map[string]string{

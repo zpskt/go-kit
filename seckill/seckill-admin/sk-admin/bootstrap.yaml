@@ -8,7 +8,7 @@ rpc:
   port: 9132
 
 discover:
-  Host: secconsul
+  Host: consul-svc
   port: 8500
   instanceId: sk-admin-localhost
   serviceName: sk-admin
@@ -28,14 +28,14 @@ trace:
   url: /api/v2/spans
 
 mysql:
-  host: secmysql
+  host: mysql-svc
   port: 3306
   user: root
   pwd: zhangpeng
   Db: seckill
 
 redis:
-  host: secredis:6379
+  host: 39.99.214.230:6379
   password: zhangpeng
   db: 0
   proxy2layer_queue_name: name

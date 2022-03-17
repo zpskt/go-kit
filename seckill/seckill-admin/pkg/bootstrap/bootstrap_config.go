@@ -38,8 +38,8 @@ func init() {
 	}
 }
 func initBootstrapConfig() {
-	Logger.Log("开始延时：30s")
-	time.Sleep(30 * time.Second)
+	Logger.Log("开始延时：50s")
+	time.Sleep(50 * time.Second)
 	//设置读取的配置文件
 	viper.SetConfigName("bootstrap")
 	//添加读取的配置文件路径

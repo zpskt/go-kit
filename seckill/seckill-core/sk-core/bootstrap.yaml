@@ -25,7 +25,7 @@ config:
 
 
 trace:
-  host: 39.99.214.230
+  host: seczipkin
   port: 9411
   url: /api/v2/spans
 
@@ -37,7 +37,7 @@ mysql:
   Db: seckill
 
 redis:
-  host: secredis:6379
+  host: 39.99.214.230:6379
   password: zhangpeng
   db: 0
   Proxy2layerQueueName: proxy2layer

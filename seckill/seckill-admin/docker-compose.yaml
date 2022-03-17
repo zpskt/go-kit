@@ -33,7 +33,7 @@ services:
       - "9411"
     ports:
       - "9411:9411"
-  admin:
+  sk-admin:
     build: .
     container_name: sk-admin
     depends_on:

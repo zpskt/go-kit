@@ -57,3 +57,16 @@ viper.AddConfigPath（"path）换成你的本机文件地址
 这里我给的接口都是按照默认的port接口，你可以自行修改端口，后缀.yaml文档都是配置文档。  
 路径：  
 ./seckill/接口测试文档/*
+
+###docker启动  
+默认用本地代码Dockerfile镜像，如果用dockerhub，选择对应版本2.0，把docker-compose.yaml文件里面build注释，images取消注释。  
+
+    docker-compose up
+### API接口
+都在接口测试文档文件夹里，APIfox工具。
+###docker 常用命令  
+
+    sudo docker commit -m "seckill2.0" -a "zp" sk-admin zpskt/seckill_admin:2.0
+    sudo docker push zpskt/seckill_admin:2.0
+
+    

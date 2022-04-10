@@ -7,6 +7,8 @@ go-kit实践
 负载均衡，consulapi
 ### [server-v2](https://github.com/zpskt/go-kit/tree/main/go-kit-service/consul-server-v2)
 jwt验证
+### 秒杀系统 
+在seckill文件夹下
 ##工具
 ### [kong Apigateway](https://github.com/zpskt/go-kit/tree/main/tools/apigateway)
 ## 介绍

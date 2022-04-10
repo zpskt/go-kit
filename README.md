@@ -23,3 +23,5 @@ Go-kit的三层架构
 3、Transport
 主要负责与HTTP、gRPC、thrift等相关逻辑  
 
+分支合并测试
+
